@@ -1,5 +1,7 @@
 package com.application.SurveySystem.Service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,16 +28,18 @@ public class RequestService {
 	private UserService userservice;
 	
 	
-//	public boolean addQuestion(Requests request, String token) {
-//		boolean authenticatedUser = userservice.authToken(token);
-//		
-//		if(authenticatedUser) {
-//			Token tokenObject = tokenrepository.findByToken(token);
-//			Users user = userrepository.findByToken(tokenObject);
-//			Requests req = new Requests(user, request.getQuestion(), request.getAnswer());
-//			requestrepository.save(req);
-//			return true;
-//		}
-//		return false;
-//	}
+	public boolean addQuestion(Requests request, String token) {
+		boolean authenticatedUser = userservice.authToken(token);
+		
+		if(authenticatedUser) {
+			Token tokenObject = tokenrepository.findByToken(token);
+			Optional<Users> optionalUser = userrepository.findById(tokenObject.getUser().getId());
+			if(optionalUser.isPresent()) {
+				Requests req = new Requests(optionalUser.get(), request.getQuestion(), request.getAnswer());
+				requestrepository.save(req);
+				return true;
+			}
+		}
+		return false;
+	}
 }

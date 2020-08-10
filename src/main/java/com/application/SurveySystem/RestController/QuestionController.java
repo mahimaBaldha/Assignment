@@ -32,8 +32,8 @@ public class QuestionController {
 	@Autowired
 	private RequestService requestservice;
 	
-	@PostMapping(path= "/isAuthenticatedUser/{questionurl}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity isAuthenticated(@PathVariable("questionurl") String questionurl, @RequestHeader("x-auth-token") String token) {
+	@PostMapping(path= "/isAuthenticatedUser", consumes = "application/json", produces = "application/json")
+    public ResponseEntity isAuthenticated(@RequestHeader("x-auth-token") String token) {
 		
 		boolean authenticatedUser = userservice.authToken(token);
 		
@@ -49,23 +49,23 @@ public class QuestionController {
 		return new ResponseEntity<Output>(op, HttpStatus.OK);
     }
 	
-//	@PostMapping(path= "/addResponse", consumes = "application/json", produces = "application/json")
-//    public ResponseEntity saveResponse(@RequestBody Requests request, @RequestHeader("x-auth-token") String token) {
-//		
-//		boolean authenticatedUser = userservice.authToken(token);
-//		
-//		if(!authenticatedUser) {
-//			op.setError(true);
-//			op.setMessage("Not success");
-//			op.setData(HttpStatus.UNAUTHORIZED);
-//		}
-//		
-//		boolean answer = requestservice.addQuestion(request, token);
-//		op.setError(false);
-//		op.setMessage("success");
-//		op.setData(answer);
-//		
-//		return new ResponseEntity<Output>(op, HttpStatus.OK);
-//    }
+	@PostMapping(path= "/addResponse", consumes = "application/json", produces = "application/json")
+    public ResponseEntity saveResponse(@RequestBody Requests request, @RequestHeader("x-auth-token") String token) {
+		
+		boolean authenticatedUser = userservice.authToken(token);
+		
+		if(!authenticatedUser) {
+			op.setError(true);
+			op.setMessage("Not success");
+			op.setData(HttpStatus.UNAUTHORIZED);
+		}
+		
+		boolean answer = requestservice.addQuestion(request, token);
+		op.setError(false);
+		op.setMessage("success");
+		op.setData(answer);
+		
+		return new ResponseEntity<Output>(op, HttpStatus.OK);
+    }
 	
 }

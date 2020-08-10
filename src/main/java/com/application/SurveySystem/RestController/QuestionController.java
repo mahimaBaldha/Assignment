@@ -1,5 +1,7 @@
 package com.application.SurveySystem.RestController;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,24 +35,19 @@ public class QuestionController {
 	private RequestService requestservice;
 	
 	@PostMapping(path= "/isAuthenticatedUser", consumes = "application/json", produces = "application/json")
-    public ResponseEntity isAuthenticated(@RequestHeader("x-auth-token") String token) {
+    public ResponseEntity<?> isAuthenticated(@RequestHeader("x-auth-token") String token) {
 		
 		boolean authenticatedUser = userservice.authToken(token);
 		
-		if(!authenticatedUser) {
-			op.setError(false);
-			op.setMessage("success");
-			op.setData(false);
-		}
 		op.setError(false);
 		op.setMessage("success");
-		op.setData(true);
+		op.setData(authenticatedUser);
 		
 		return new ResponseEntity<Output>(op, HttpStatus.OK);
     }
 	
 	@PostMapping(path= "/addResponse", consumes = "application/json", produces = "application/json")
-    public ResponseEntity saveResponse(@RequestBody Requests request, @RequestHeader("x-auth-token") String token) {
+    public ResponseEntity<?> saveResponse(@RequestBody Requests request, @RequestHeader("x-auth-token") String token) {
 		
 		boolean authenticatedUser = userservice.authToken(token);
 		
@@ -68,4 +65,9 @@ public class QuestionController {
 		return new ResponseEntity<Output>(op, HttpStatus.OK);
     }
 	
+	@GetMapping("/getallRequests")
+    public ResponseEntity getUsers() {
+		List<Requests> user1 = requestservice.getAllRequests();
+		return new ResponseEntity<List>(user1, HttpStatus.OK);
+    }
 }

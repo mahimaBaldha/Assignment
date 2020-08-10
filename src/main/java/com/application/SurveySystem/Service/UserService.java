@@ -2,6 +2,7 @@ package com.application.SurveySystem.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.application.SurveySystem.Model.Requests;
 import com.application.SurveySystem.Model.Token;
 import com.application.SurveySystem.Model.Users;
 import com.application.SurveySystem.Repository.TokenRepository;
@@ -50,5 +52,11 @@ public class UserService {
 			return false;
 		return true;
 	}
+
+	public List<Users> getAllUsers() {
+		return userrepository.findAll();
+	}
+
+	
 	
 }

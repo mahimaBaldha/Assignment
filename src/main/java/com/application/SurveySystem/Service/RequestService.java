@@ -1,5 +1,6 @@
 package com.application.SurveySystem.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,11 @@ public class RequestService {
 			}
 		}
 		return false;
+	}
+
+
+	public List<Requests> getAllRequests() {
+		return requestrepository.findAll();
+		
 	}
 }

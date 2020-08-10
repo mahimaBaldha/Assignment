@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.application.SurveySystem.Model.Output;
+import com.application.SurveySystem.Model.Requests;
 import com.application.SurveySystem.Model.Token;
 import com.application.SurveySystem.Model.Users;
 import com.application.SurveySystem.Repository.UserRepository;
@@ -37,20 +38,27 @@ public class LoginController {
 	private UserService userservice;
 	
 	
-	@GetMapping("/")
-    public ResponseEntity getUsers() {
-		List<Users> user1 = userrepository.findAll();
+	@GetMapping("/getallUsers")
+    public ResponseEntity<?> getAllUsers() {
+		List<Users> user1 = userservice.getAllUsers();
 		return new ResponseEntity<List>(user1, HttpStatus.OK);
     }
 	
-	@PostMapping(path= "/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity postUsers(@RequestBody Users user) {
+	@PostMapping(path= "/addUser", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> postUsers(@RequestBody Users user) {
 		
 		Users savedUser = userservice.saveUser(user);
 		userservice.setToken(user);
 		
 		return new ResponseEntity<Users>(savedUser, HttpStatus.OK);
     }
+	
+	@GetMapping("/")
+    public ResponseEntity<?> getUsers() {
+		List<Users> user1 = userrepository.findAll();
+		return new ResponseEntity<List>(user1, HttpStatus.OK);
+    }
+	
 	
 	@GetMapping(path="/auth")
 	public boolean authh(@RequestHeader("x-auth-token") String token,HttpServletRequest request) {

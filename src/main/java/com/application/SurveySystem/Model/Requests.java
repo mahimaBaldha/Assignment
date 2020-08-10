@@ -25,9 +25,51 @@ public class Requests {
     @JsonBackReference
     private Users user;
     
-    private String question;
+
+	public Integer getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(Integer questionId) {
+		this.questionId = questionId;
+	}
+
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
+
+	public String getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
+	public String getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
+	private String question;
     private String answer;
     
     @CreatedDate
     private Date created_at;
+    
+    public Requests() {}
+    
+    public Requests(Users user, String question, String answer) {
+  		super();
+  		this.user = user;
+  		this.question = question;
+  		this.answer = answer;
+  	}
 }

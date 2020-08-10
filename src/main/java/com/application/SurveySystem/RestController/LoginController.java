@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,8 +53,8 @@ public class LoginController {
     }
 	
 	@GetMapping(path="/auth")
-	public boolean authh(HttpServletRequest request) {
-		return userservice.authToken(request);
+	public boolean authh(@RequestHeader("x-auth-token") String token,HttpServletRequest request) {
+		return userservice.authToken(token);
 	}
 	
 	@PostMapping(path= "/login", consumes = "application/json", produces = "application/json")

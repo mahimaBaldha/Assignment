@@ -27,8 +27,6 @@ public class UserService {
 		List<Users> allUsers =  userrepository.findAll();
 		
 		if(! allUsers.contains(user)) {
-//			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(16);
-//			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			return userrepository.save(user);
 		}
 		return user;
@@ -43,8 +41,7 @@ public class UserService {
 		return token;
 	}
 	
-	public boolean authToken(HttpServletRequest request) {
-		String requestTokenHeader = request.getHeader("Authorization");
+	public boolean authToken(String requestTokenHeader) {
 		if(requestTokenHeader.contains("Bearer ")) {
 			requestTokenHeader = requestTokenHeader.replace("Bearer ", "");
 		}

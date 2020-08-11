@@ -8,19 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpHeaders;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.application.SurveySystem.Model.Output;
-import com.application.SurveySystem.Model.Requests;
 import com.application.SurveySystem.Model.Token;
 import com.application.SurveySystem.Model.Users;
 import com.application.SurveySystem.Repository.UserRepository;
@@ -47,23 +44,21 @@ public class LoginController {
 	@PostMapping(path= "/addUser", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> postUsers(@RequestBody Users user) {
 		
-		Users savedUser = userservice.saveUser(user);
-		userservice.setToken(user);
-		
+		Users savedUser = userservice.addUser(user);
 		return new ResponseEntity<Users>(savedUser, HttpStatus.OK);
     }
 	
 	@GetMapping("/")
     public ResponseEntity<?> getUsers() {
-		List<Users> user1 = userrepository.findAll();
+		List<Users> user1 = userservice.getAllUsers();
 		return new ResponseEntity<List>(user1, HttpStatus.OK);
     }
 	
 	
-	@GetMapping(path="/auth")
-	public boolean authh(@RequestHeader("x-auth-token") String token,HttpServletRequest request) {
-		return userservice.authToken(token);
-	}
+//	@GetMapping(path="/auth")
+//	public boolean authh(@RequestHeader("x-auth-token") String token,HttpServletRequest request) {
+//		return userservice.authToken(token);
+//	}
 	
 	@PostMapping(path= "/login", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> loginPage(@RequestBody Users user,HttpServletRequest request) {
@@ -77,9 +72,7 @@ public class LoginController {
 			return new ResponseEntity<Output>(op, HttpStatus.NOT_FOUND);
 		}
 		
-		String pass = user.getPassword();
-		
-		if (! pass.equals(user1.get().getPassword())) {
+		if (! user.getPassword().equals(user1.get().getPassword())) {
 			op.setError(true);
 			op.setMessage("not success");
 			op.setData("Invalid password");

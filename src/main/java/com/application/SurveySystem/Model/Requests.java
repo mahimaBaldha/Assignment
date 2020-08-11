@@ -2,6 +2,7 @@ package com.application.SurveySystem.Model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -57,8 +58,11 @@ public class Requests {
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-
+	
+	@Column(columnDefinition="TEXT")
 	private String question;
+	
+	@Column(columnDefinition="TEXT")
     private String answer;
     
     @CreatedDate

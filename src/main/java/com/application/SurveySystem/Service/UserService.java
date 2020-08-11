@@ -57,6 +57,10 @@ public class UserService {
 		return userrepository.findAll();
 	}
 
-	
+	public Users addUser(Users user) {
+		Users savedUser = saveUser(user);
+		setToken(savedUser);
+		return savedUser;
+	}
 	
 }

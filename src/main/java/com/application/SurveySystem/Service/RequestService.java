@@ -29,7 +29,7 @@ public class RequestService {
 	private UserService userservice;
 	
 	
-	public boolean addQuestion(Requests request, String token) {
+	public boolean addRequest(Requests request, String token) {
 		boolean authenticatedUser = userservice.authToken(token);
 		
 		if(authenticatedUser) {
